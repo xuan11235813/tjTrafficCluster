@@ -47,12 +47,15 @@ def import_data_format_iris(file):
     return data
 
 
-def import_data_from_database(startTime, endTime, routeID):
+def import_data_from_database(parameter):
     # startTime, endTime should in format yyyymmdd, like 20181001
+
+    startTime, endTime, routeID = parameter.getTimeAndRoute()
+
     data = []
     dataProperty = []
     # initialize parameters
-    para = Para()
+    para = parameter
 
     # initialize sql
     sql = SQL(para)
@@ -98,7 +101,7 @@ def import_data_from_database(startTime, endTime, routeID):
                 # add bus id and table name to property ready for recall
                 propertyItem = propertyItem + (busID, tableName,)
                 dataProperty.append(propertyItem)
-                
+
     return data, dataProperty
 
 
@@ -269,19 +272,18 @@ def cluster_detail(final_location, original_data):
             cluster4.append(original_data[i])
     return cluster1, cluster2, cluster3, cluster4
 
-if __name__ == '__main__':
+def clusterMain(parameter):
 
     # 加载数据,填入数据数据文件名
-    #original_data = import_data_format_iris("iris2.csv")
-    original_data, _ = import_data_from_database(
-        '20181001', '20181001', '10066')
-    print_matrix(original_data)
-    print("--------------------------------------------------------------------------------------------------------------------------------")
+    # original_data = import_data_format_iris("iris2.csv")
+    original_data, dataProperties = import_data_from_database(parameter)
+    #print_matrix(original_data)
+    #print("--------------------------------------------------------------------------------------------------------------------------------")
 
     # 随机化数据
     data, order = randomise_data(original_data)
-    print_matrix(data)
-    print("--------------------------------------------------------------------------------------------------------------------------------")
+    #print_matrix(data)
+    #print("--------------------------------------------------------------------------------------------------------------------------------")
 
     start = time.time()
     # 现在我们有一个名为data的列表，它只是数字
@@ -291,10 +293,10 @@ if __name__ == '__main__':
 
     # 还原数据
     final_location = de_randomise_data(final_location, order)
-    print_matrix(final_location)
+    #print_matrix(final_location)
     cluster1, cluster2, cluster3, cluster4 = cluster_detail(
         final_location, original_data)
-
+    '''
     # 准确度分析
     print("用时：{0}".format(time.time() - start))
     print_matrix(cluster1)
@@ -308,3 +310,5 @@ if __name__ == '__main__':
 
     print_matrix(cluster4)
     print("Above is cluster4---------------------------------------------------------------------------------------------------------------")
+	'''
+    return final_location, dataProperties

@@ -9,8 +9,27 @@ class Para:
         self.monthDaysLeap = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         self.prefix = 'record_bus_gpsdata_'
 
+        self.startTimeStr = '20181001'
+        self.endTimeStr = '20181001'
+        self.routeIDstr = '10066'
+
+
+    def getTimeAndRoute(self):
+    	return self.startTimeStr, self.endTimeStr, self.routeIDstr
+    def setTimeAndRoute(self, _startTime, _endTime, _routeID):
+    	self.startTimeStr = _startTime
+    	self.endTimeStr = _endTime
+    	self.routeIDstr = _routeID
+
     def getDBProperty(self):
         return self.sqlHost, self.user, self.password, self.dataBaseName
+    def setDBProperty(self, host, _user, _password, _dataBaseName):
+    	self.sqlHost = host
+    	self.user = _user
+    	self.password = _password
+    	self.dataBaseName = _dataBaseName
+
+
 
     def getTableNameArray(self, start_time, end_time):
         # time in this form:

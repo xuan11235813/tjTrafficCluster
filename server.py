@@ -3,11 +3,11 @@ import SocketServer
 import SimpleHTTPServer
 import re
 import para
+from cluster import *
 
-
-def set_database_connection(handler):
+def execute(handler):
     found = re.search(
-        '/setDatabaseConnection/(.*)/(.*)/(.*)/(.*)/',
+        '/execute/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/(.*)/',
         handler.path)
     if found is None:
         handler.send_response(400)
@@ -18,35 +18,20 @@ def set_database_connection(handler):
         handler.send_response(200)
         handler.send_header('Content-type', 'text/plain')
         handler.end_headers()
-        handler.wfile.write("OK")  # call sample function here
-        (dbhost, username, password, dbname) = found.group(1, 2, 3, 4)
+        (dbhost, username, password, dbname, startTime, endTime, routeID) = found.group(1, 2, 3, 4, 5, 6, 7)
         # TODO: set into para
+        para = Para()
+        para.setDBProperty(dbhost, username, password, dbname)
+        para.setTimeAndRoute(startTime, endTime, routeID)
+        result, dataProperties = clusterMain(para)
 
-
-def clustering(handler):
-    found = re.search(
-        '/setDatabaseConnection/(.*)/(.*)/(.*)/',
-        handler.path)
-    if found is None:
-        handler.send_response(400)
-        handler.send_header('Content-type', 'text/plain')
-        handler.end_headers()
-        handler.wfile.write("Bad Request")
-    else:
-        handler.send_response(200)
-        handler.send_header('Content-type', 'text/plain')
-        handler.end_headers()
-        (startTime, endTime, routeID) = found.group(1, 2, 3)
-        # TODO: set and write back to the handler
-        handler.wfile.write("OK")  # call sample function here
+        handler.wfile.write(str(result) + "|" + str(dataProperties))  # call sample function here
 
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
     def do_GET(self):
-        if self.path.startswith('/setDatabaseConnection/'):
-            return set_database_connection(self)
-        elif self.path.startswith('/clustering/'):
+        if self.path.startswith('/execute/'):
             return execute(self)
         else:
             # serve files, and directory listings by following self.path from
@@ -55,7 +40,7 @@ class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 
 if '__main__' == __name__:
-    PORT = 3108
+    PORT = 3111
     print "serving at port", PORT
     httpd = SocketServer.ThreadingTCPServer(('', PORT), CustomHandler)
     httpd.serve_forever()
