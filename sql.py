@@ -51,8 +51,9 @@ class SQL:
             data = self.cur.fetchall()
             for name in data:
                 busIDList.append(name[0])
-        except:
+        except Exception, e:
             print(instruction)
+            print(str(e))
             print('wrong input/sql error')
             busIDList = []
         print('Done!')
@@ -74,9 +75,12 @@ class SQL:
             for item in data:
                 result.append((float(item[0]), float(
                     (item[1] - datetime.datetime(1970, 1, 1)).total_seconds())))
-        except:
+        except Exception, e:
+
             print(instruction)
+            print(str(e))
             print('wrong input/sql error')
+
             result = []
         print('Done!')
         return result
