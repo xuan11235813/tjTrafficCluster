@@ -14,6 +14,9 @@ class SQL:
         self.cur = self.db.cursor()
         self.type = '41'
 
+    def totalSeconds(self, dateDeltaItem):
+        return dateDeltaItem.days * 24.0 * 3600.0 + dateDeltaItem.seconds
+
     def selectInstruction(self, precond, colName, tableName, conditions):
         instruction = []
         instruction.extend(['select', ' '])
@@ -68,13 +71,14 @@ class SQL:
                       'route_id=' + routeID, 'bus_id=' + busID]
         instruction = self.selectInstruction(
             precond, colName, tableName, conditions)
-        print('Get speed and time id of '+ busID + 'from table ' + tableName + ' :')
+        print('Get speed and time id of ' + busID +
+              'from table ' + tableName + ' :')
         try:
             self.cur.execute(instruction)
             data = self.cur.fetchall()
             for item in data:
                 result.append((float(item[0]), float(
-                    (item[1] - datetime.datetime(1970, 1, 1)).total_seconds())))
+                    self.totalSeconds(item[1] - datetime.datetime(1970, 1, 1)))))
         except Exception, e:
 
             print(instruction)
