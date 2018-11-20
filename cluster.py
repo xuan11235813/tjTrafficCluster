@@ -5,8 +5,6 @@ import math
 import random
 import time
 import sys
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import decimal
 
 from para import *
