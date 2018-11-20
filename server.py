@@ -20,6 +20,7 @@ def execute(handler):
         handler.end_headers()
         (dbhost, username, password, dbname, startTime, endTime, routeID) = found.group(1, 2, 3, 4, 5, 6, 7)
         # TODO: set into para
+
         para = Para()
         para.setDBProperty(dbhost, username, password, dbname)
         para.setTimeAndRoute(startTime, endTime, routeID)

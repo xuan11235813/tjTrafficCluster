@@ -52,6 +52,7 @@ class SQL:
             for name in data:
                 busIDList.append(name[0])
         except:
+            print(instruction)
             print('wrong input/sql error')
             busIDList = []
         print('Done!')
@@ -74,6 +75,7 @@ class SQL:
                 result.append((float(item[0]), float(
                     (item[1] - datetime.datetime(1970, 1, 1)).total_seconds())))
         except:
+            print(instruction)
             print('wrong input/sql error')
             result = []
         print('Done!')
