@@ -250,7 +250,7 @@ def fuzzy(data, cluster_number, m):
         print(C[i])
 
     U = normalise_U(U)
-    return U
+    return U, C
 
 
 def cluster_detail(final_location, original_data):
@@ -287,7 +287,7 @@ def clusterMain(parameter):
     # 现在我们有一个名为data的列表，它只是数字
     # 我们还有另一个名为cluster_location的列表，它给出了正确的聚类结果位置
     # 调用模糊C均值函数
-    final_location = fuzzy(data, 4, 2)
+    final_location, cluster_center = fuzzy(data, 4, 2)
 
     # 还原数据
     final_location = de_randomise_data(final_location, order)
@@ -309,4 +309,4 @@ def clusterMain(parameter):
     print_matrix(cluster4)
     print("Above is cluster4---------------------------------------------------------------------------------------------------------------")
 	'''
-    return final_location, dataProperties
+    return final_location, dataProperties, cluster_center

@@ -24,9 +24,9 @@ def execute(handler):
         para = Para()
         para.setDBProperty(dbhost, username, password, dbname)
         para.setTimeAndRoute(startTime, endTime, routeID)
-        result, dataProperties = clusterMain(para)
+        result, dataProperties, cluster_center = clusterMain(para)
 
-        handler.wfile.write(str(result) + "|" + str(dataProperties))  # call sample function here
+        handler.wfile.write(str(result) + "|" + str(dataProperties) + "|" + str(cluster_center))  # call sample function here
 
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
