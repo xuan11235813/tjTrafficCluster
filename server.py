@@ -4,6 +4,7 @@ import SimpleHTTPServer
 import re
 import para
 from cluster import *
+import json
 
 def execute(handler):
     found = re.search(
@@ -26,7 +27,7 @@ def execute(handler):
         para.setTimeAndRoute(startTime, endTime, routeID)
         result, dataProperties, cluster_center = clusterMain(para)
 
-        handler.wfile.write(str(result) + "|" + str(dataProperties) + "|" + str(cluster_center))  # call sample function here
+        handler.wfile.write(json.dumps(result) + "|" + json.dumps(dataProperties) + "|" + json.dumps(cluster_center))  # call sample function here
 
 
 class CustomHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):

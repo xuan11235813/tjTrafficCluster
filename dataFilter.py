@@ -117,4 +117,60 @@ class DataProcess:
             1970, 1, 1) + datetime.timedelta(0, data[0][1])
         endTime = datetime.datetime(1970, 1, 1) + \
             datetime.timedelta(0, data[-1][1])
-        return (startTime, endTime)
+        if(startTime.year < 10):
+            startTimeYear = '0' + str(startTime.year)
+        else:
+            startTimeYear = '' + str(startTime.year)
+        if(startTime.month < 10):
+            startTimeMonth = '0' + str(startTime.month)
+        else:
+            startTimeMonth = '' + str(startTime.month)
+        if(startTime.day < 10):
+            startTimeDay = '0' + str(startTime.day)
+        else:
+            startTimeDay = '' + str(startTime.day)
+        if(startTime.hour < 10):
+            startTimeHour = '0' + str(startTime.hour)
+        else:
+            startTimeHour = '' + str(startTime.hour)
+        if(startTime.minute < 10):
+            startTimeMinute = '0' + str(startTime.minute)
+        else:
+            startTimeMinute = '' + str(startTime.minute)
+        if(startTime.second < 10):
+            startTimeSecond = '0' + str(startTime.second)
+        else:
+            startTimeSecond = '' + str(startTime.second)
+        if(startTime.year < 10):
+            startTimeYear = '0' + str(startTime.year)
+        else:
+            endTimeYear = '' + str(endTime.year)
+        if(endTime.month < 10):
+            endTimeMonth = '0' + str(endTime.month)
+        else:
+            endTimeMonth = '' + str(endTime.month)
+        if(endTime.day < 10):
+            endTimeDay = '0' + str(endTime.day)
+        else:
+            endTimeDay = '' + str(endTime.day)
+        if(endTime.hour < 10):
+            endTimeHour = '0' + str(endTime.hour)
+        else:
+            endTimeHour = '' + str(endTime.hour)
+        if(endTime.minute < 10):
+            endTimeMinute = '0' + str(endTime.minute)
+        else:
+            endTimeMinute = '' + str(endTime.minute)
+        if(endTime.second < 10):
+            endTimeSecond = '0' + str(endTime.second)
+        else:
+            endTimeSecond = '' + str(endTime.second)
+
+        startTimeStr = '' + str(startTimeYear) + '-' + str(startTimeMonth) + \
+            '-' + str(startTimeDay) + ' ' + str(startTimeHour) + \
+            ':' + str(startTimeMinute) + ':' + str(startTimeSecond)
+        endTimeStr = ''
+        endTimeStr = '' + str(endTimeYear) + '-' + str(endTimeMonth) + \
+            '-' + str(endTimeDay) + ' ' + str(endTimeHour) + \
+            ':' + str(endTimeMinute) + ':' + str(endTimeSecond)
+        return [startTimeStr, endTimeStr]

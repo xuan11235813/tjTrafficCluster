@@ -97,7 +97,7 @@ def import_data_from_database(parameter):
                 data.append(featureItem)
 
                 # add bus id and table name to property ready for recall
-                propertyItem = propertyItem + (busID, tableName,)
+                propertyItem = propertyItem + [busID, tableName]
                 dataProperty.append(propertyItem)
 
     return data, dataProperty
