@@ -75,7 +75,8 @@ def import_data_from_database(parameter):
         # for each bus id get its data
         for busID in busIDList:
 
-            rawData = sql.getSpeedTimeFromID(tableName, routeID, '\'' + busID + '\'')
+            rawData = sql.getSpeedTimeFromID(
+                tableName, routeID, '\'' + busID + '\'')
 
             # data after filter
             rawDataFiltered = dataProcess.filter(rawData)
@@ -270,18 +271,34 @@ def cluster_detail(final_location, original_data):
             cluster4.append(original_data[i])
     return cluster1, cluster2, cluster3, cluster4
 
+
+def dataToDict(classArray, dataProperties):
+
+    dataArray = []
+    N = len(classArray)
+    for i in range(N):
+        dictItem = {}
+        dictItem['clusterNum'] = classArray[i].index(1) + 1
+        dictItem['startTime'] = dataProperties[i][0]
+        dictItem['endTime'] = dataProperties[i][1]
+        dictItem['busID'] = dataProperties[i][2]
+        dictItem['tableName'] = dataProperties[i][3]
+        dataArray.append(dictItem)
+    return dataArray
+
+
 def clusterMain(parameter):
 
     # 加载数据,填入数据数据文件名
     # original_data = import_data_format_iris("iris2.csv")
     original_data, dataProperties = import_data_from_database(parameter)
-    #print_matrix(original_data)
-    #print("--------------------------------------------------------------------------------------------------------------------------------")
+    # print_matrix(original_data)
+    # print("--------------------------------------------------------------------------------------------------------------------------------")
 
     # 随机化数据
     data, order = randomise_data(original_data)
-    #print_matrix(data)
-    #print("--------------------------------------------------------------------------------------------------------------------------------")
+    # print_matrix(data)
+    # print("--------------------------------------------------------------------------------------------------------------------------------")
 
     start = time.time()
     # 现在我们有一个名为data的列表，它只是数字
@@ -291,7 +308,7 @@ def clusterMain(parameter):
 
     # 还原数据
     final_location = de_randomise_data(final_location, order)
-    #print_matrix(final_location)
+    # print_matrix(final_location)
     cluster1, cluster2, cluster3, cluster4 = cluster_detail(
         final_location, original_data)
     '''
@@ -309,4 +326,4 @@ def clusterMain(parameter):
     print_matrix(cluster4)
     print("Above is cluster4---------------------------------------------------------------------------------------------------------------")
 	'''
-    return final_location, dataProperties, cluster_center
+    return dataToDict(final_location, dataProperties), cluster_center
