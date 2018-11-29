@@ -80,7 +80,7 @@ def import_data_from_database(parameter):
 
             # data after filter
             rawDataFiltered = dataProcess.filter(rawData)
-
+            
             # divide into groups:
             groupedData = dataProcess.setRegularGroupGetFeatures(
                 rawDataFiltered)
@@ -294,7 +294,6 @@ def clusterMain(parameter):
     original_data, dataProperties = import_data_from_database(parameter)
     # print_matrix(original_data)
     # print("--------------------------------------------------------------------------------------------------------------------------------")
-
     # 随机化数据
     data, order = randomise_data(original_data)
     # print_matrix(data)

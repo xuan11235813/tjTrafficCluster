@@ -22,42 +22,44 @@ class DataProcess:
 
     def filter(self, data):
         # data structure should be [(speed, second)]
+
         _data = []
-        for i in range(self.preZeros):
-            _data.append(data[i])
-        # 0 for actual previous item of original dataset has been written
-        # 1 for previous exist at least 1 abnormal data
-        preFlag = 0
-
-        for i in range(self.preZeros, len(data) - self.laterZeros):
-
-            # flag for current item abnormal or not
-            # 1 for abnormal
-            # 0 for normal
-            # default is normal
-            currentFlag = 0
-            preSum = 0.0
-            laterSum = 0.0
-            for j in range(i - self.preZeros, i):
-                preSum = preSum + data[j][0]
-            for j in range(i + 1, i + self.laterZeros + 1):
-                laterSum = laterSum + data[j][0]
-            if (abs(laterSum) <= self.subSumLimit) and (abs(preSum) <= self.subSumLimit) and float(data[i][0]) < 0.1:
-                currentFlag = 1
-            timeInterval = 0
-
-            if preFlag == 0:
-                timeInterval = data[i][1] - data[i - 1][1]
-            else:
-                timeInterval = data[i + 1][1] - data[i][1]
-            if timeInterval >= self.maxmalTimeInterval:
-                currentFlag = 1
-
-            if currentFlag == 0:
+        if len(data) >= 8:
+            for i in range(self.preZeros):
                 _data.append(data[i])
-                preFlag = 0
-            else:
-                preFlag = 1
+            # 0 for actual previous item of original dataset has been written
+            # 1 for previous exist at least 1 abnormal data
+            preFlag = 0
+
+            for i in range(self.preZeros, len(data) - self.laterZeros):
+
+                # flag for current item abnormal or not
+                # 1 for abnormal
+                # 0 for normal
+                # default is normal
+                currentFlag = 0
+                preSum = 0.0
+                laterSum = 0.0
+                for j in range(i - self.preZeros, i):
+                    preSum = preSum + data[j][0]
+                for j in range(i + 1, i + self.laterZeros + 1):
+                    laterSum = laterSum + data[j][0]
+                if (abs(laterSum) <= self.subSumLimit) and (abs(preSum) <= self.subSumLimit) and float(data[i][0]) < 0.1:
+                    currentFlag = 1
+                timeInterval = 0
+
+                if preFlag == 0:
+                    timeInterval = data[i][1] - data[i - 1][1]
+                else:
+                    timeInterval = data[i + 1][1] - data[i][1]
+                if timeInterval >= self.maxmalTimeInterval:
+                    currentFlag = 1
+
+                if currentFlag == 0:
+                    _data.append(data[i])
+                    preFlag = 0
+                else:
+                    preFlag = 1
         return _data
 
     def getFeature(self, data):
